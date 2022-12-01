@@ -1,0 +1,35 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  lint-and-build:
+    name: Lint and Build
+    uses: colinbeales/actions-reusableworkflows/.github/workflows/lint-and-build.yml@main
+    with:
+      nodeVersion: 16
+
+  browser-test:
+    name: Browser Test
+    needs: lint-and-build
+    strategy:
+      matrix:
+        browser:
+          - firefox
+          - chrome
+    uses: colinbeales/actions-reusableworkflows/.github/workflows/browser-test.yml@main
+    with:
+      browser: ${{ matrix.browser }}
+
+  container-build-and-publish:
+     needs: browser-test
+     name: Container Build and Publish
+     uses: colinbeales/actions-reusableworkflows/.github/workflows/container-build-publish.yml@main
+
