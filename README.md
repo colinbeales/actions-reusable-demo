@@ -1,6 +1,6 @@
 # actions-reusable-demo
 
-Small demo to show reusable functions in use.
+Small demo to show reusable actions in use. This is the calling repo...
 
 Shows how reusables can also
 - Nest (i.e. call a reusable from a reusable)
